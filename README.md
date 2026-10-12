@@ -1,71 +1,116 @@
-## Install
+# Task Manager
 
-From the project directory, on macOS or Linux:
+A small home for the things you need to get done. Add a task, finish it, and watch your week take shape — right in your terminal.
+
+## Install & go
+
+You'll need **Python 3.10+**. On macOS or Linux, paste this into your terminal:
 
 ```bash
+mkdir test-my-package
+cd test-my-package
+
 python3 -m venv .venv
 source .venv/bin/activate
-python -m pip install -e .
+
+pip install student-task-manager-cli
+task --help
 ```
 
-On Windows PowerShell:
+That's it. Run `task` to open your workspace.
+
+<details>
+<summary>On Windows? Use PowerShell.</summary>
 
 ```powershell
+mkdir test-my-package
+cd test-my-package
+
 py -m venv .venv
 .venv\Scripts\Activate.ps1
-python -m pip install -e .
+
+pip install student-task-manager-cli
+task --help
 ```
 
-After activation, run `task` to open the interactive terminal view.
-Enter commands at the `❯` prompt, for example `add Write report`, `ls`, or `/help`.
-`list` and `ls` are the same command. `list` shows To do tasks, `list --done` shows completed tasks, and `list --all` shows both.
-Titles may contain spaces without quotes. `clear` and `cls` clear the interactive screen;
-`clear-completed` removes completed tasks. Type `task` at the prompt to show the welcome view again.
+Run `task` to open your workspace.
 
-Tab completes commands and the arrow keys recall history on terminals with readline.
-The welcome screen shows your next task and a small activity chart.
+</details>
 
-You can also run single commands directly, such as:
-`task add "Write report"` or `task --help`. 
+The folder holds your Python environment; your tasks live in your user data directory. In a new terminal, return to this folder and activate `.venv` again. Run `deactivate` when you're finished.
 
-To leave the environment, run `deactivate`.
+## Make yourself at home
 
-## Commands
+The welcome screen gives you a look at what's next and what you've finished this week. It uses warm accents, soft borders, and a little face to keep you company.
 
-| Command | Purpose |
-| --- | --- |
-| `task add "Write report"` | Add a task |
-| `task list` or `task ls` | List To do tasks |
-| `task list --done` | List completed tasks |
-| `task list --undone` | List To do tasks |
-| `task list --all` | List every task |
-| `task done 1` | Complete task 1 |
-| `task undone 1` | Make task 1 pending |
-| `task delete 1` | Delete task 1 |
-| `task update 1 "New title"` | Change task 1's title |
-| `task show 1` | Show task 1's details |
-| `task clear` | Delete completed tasks |
-| `task stats` | Show progress and a 7-day completion chart |
-| `task demo` | Try 26 sample tasks in a temporary workspace |
-| `task help` | Show all commands |
+```text
+             ▗▄▄▄▖
+             ▐▪ ▪▌
+             ▝▀▀▀▘
 
-Also available: `task --help`, `task --version`, and `task <command> --help` (for example, `task add --help`). IDs are positive integers. After deletion or a status change, tasks are renumbered from 1, with To do tasks first. Use `list --all` to see current IDs. Existing task files are normalized when read; new IDs are saved on the next change. Titles cannot be blank.
+       Your tasks, one place.
+```
 
-## Try it with sample data
+Start with something small. Inside `task`, type:
+
+```text
+❯ add Finish the Python assignment
+❯ add Take a proper lunch break
+❯ ls
+❯ done 1
+❯ stats
+```
+
+You can write titles with spaces, without quotes. Use **Tab** to complete commands and **↑ / ↓** to revisit earlier ones on terminals with readline support. `/help` shows the commands; `/exit` closes the session.
+
+Prefer a quick command from your shell? That works too:
+
+```bash
+task add "Finish the Python assignment"
+task ls
+task done 1
+```
+
+## Take it for a spin
+
+Want to see a busy workspace before adding your own tasks?
 
 ```bash
 task demo
 ```
 
-Or run `python test_task.py` from the project directory. Both open a separate
-session with 8 pending and 18 completed tasks spread across the last week.
-Try `ls`, `ls --done`, `done 1`, then `stats`. Type `/exit` to leave.
-Demo changes are discarded; your own tasks stay untouched.
-`task demo --preview` prints the sample list and chart without opening a prompt.
+You'll get 8 tasks to do and 18 completed over the last week. Try `ls`, `ls --done`, and `stats`, or finish a task yourself. `/exit` leaves the demo and discards its changes. Your own tasks stay untouched.
 
-## Progress
+For a quick look without an interactive session, run `task demo --preview`.
 
-`stats` shows task counts, completion percentage, and a daily chart:
+## The commands you'll reach for
+
+These examples run from your shell. Inside the interactive workspace, leave off the `task` prefix.
+
+| Command | What it does |
+| --- | --- |
+| `task add "Write report"` | Put something on your list |
+| `task ls` | See what's left to do |
+| `task ls --done` | See what you've finished |
+| `task ls --all` | See everything |
+| `task done 1` | Mark a task complete |
+| `task undone 1` | Put it back on the to-do list |
+| `task update 1 "Send the report"` | Rename a task |
+| `task show 1` | Take a closer look at a task |
+| `task delete 1` | Remove a task |
+| `task stats` | See your progress and weekly chart |
+| `task clear` | Remove all completed tasks |
+| `task help` | See the full command reference |
+
+`list` and `ls` do the same thing. `--undone` explicitly selects pending tasks, which is also the default. Use `task <command> --help` for individual commands, or `task --version` to check your version.
+
+**Task numbers can change.** Pending tasks come first, and the list is renumbered after deletion or a status change. Check `ls --all` before working with an older task number. IDs start at 1; titles can't be blank.
+
+Inside the interactive workspace, `clear` / `cls` clears the screen. Use `clear-completed` to remove finished tasks, and `task` or `home` to bring back the welcome screen.
+
+## A little momentum
+
+`stats` shows your completed share and the last seven days of activity. A sample week looks like this:
 
 ```text
 Progress  ━━━━━━━━━━━━━━──────  69%
@@ -81,47 +126,45 @@ Sun 11  ━━━━━━━━━━━━      3
 Mon 12  ━━━━━━━━━━━━━━━━  4
 ```
 
-Dates follow your local timezone. `done` records the completion time; `undone`
-removes it. The chart counts tasks still in the file, so deleting completed tasks
-also removes them from the chart. Older tasks without a completion date still
-count toward the total, but not the daily chart.
+Dates follow your local timezone. Marking a task done records its completion time; undoing it removes that time. The chart reflects tasks still saved, so deleting completed tasks removes their activity too. Older tasks without a completion date count toward the total, but won't appear on the daily chart.
 
-## Project structure
+## Your tasks stay on your machine
 
-```text
-src/task_manager/
-  cli.py            Entry point: one command or interactive mode
-  arguments.py      Command names, flags, and ls alias
-  commands.py       Add, edit, complete, delete, list
-  storage.py        JSON file, validation, task IDs
-  productivity.py   Weekly counts and progress
-  input.py          Parse commands typed at the prompt
-  interactive.py    Input loop and command history
-  demo.py           Sample tasks and temporary workspace
-  ui/
-    theme.py        Colors and terminal sizing
-    animation.py    Startup and result transitions
-    views.py        Welcome screen, help, and task list
-tests/              CLI, interactive, demo, and productivity tests
-test_task.py        Start the demo from the project directory
-```
+Everything is saved in one `tasks.json` file. There's no account to create and no runtime dependencies to install alongside the package.
 
-A command goes through `cli → arguments → commands → storage`.
-Interactive mode adds `input` and `ui`; both modes use the same commands.
-No runtime dependencies. Set `TASK_MANAGER_NO_ANIMATION=1` to disable motion,
-or `NO_COLOR=1` for plain output. Redirected output has no colors or animation.
+| System | Default location |
+| --- | --- |
+| macOS | `~/Library/Application Support/task-manager/tasks.json` |
+| Linux | `~/.local/share/task-manager/tasks.json` (uses `XDG_DATA_HOME` when set) |
+| Windows | `%APPDATA%\task-manager\tasks.json` |
 
-## Where tasks are stored
+Set `TASK_MANAGER_DATA_DIR` to use another folder. The file is created on the first save. A missing or empty file starts an empty list; invalid JSON produces an error and leaves the file intact.
 
-The file is `tasks.json` in `~/Library/Application Support/task-manager/` on macOS, `%APPDATA%\task-manager\` on Windows, or `${XDG_DATA_HOME:-~/.local/share}/task-manager/` on Linux. It is created when a command saves tasks. A missing or empty file means no tasks. If JSON is corrupted, the command reports an error and leaves the file intact.
+For a quieter terminal, set `TASK_MANAGER_NO_ANIMATION=1` to turn off motion or `NO_COLOR=1` to turn off color. Redirected output already skips both.
 
-## Run tests
+## Working on the project
 
-With the virtual environment active, install pytest separately for development:
+From a local checkout on macOS or Linux:
 
 ```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e .
 python -m pip install pytest
 python -m pytest
 ```
 
-Tests set `TASK_MANAGER_DATA_DIR` to a temporary directory. Your real task data is never cleared by the test suite.
+On Windows, create and activate the environment with the PowerShell commands above, then run the same `python -m pip` and test commands. Tests use a temporary data directory, so your own list stays untouched.
+
+The code lives in `src/task_manager/`:
+
+| Files | Responsibility |
+| --- | --- |
+| `cli.py`, `arguments.py` | Entry point, commands, and flags |
+| `commands.py`, `storage.py` | Task operations and JSON storage |
+| `interactive.py`, `input.py` | The prompt, history, and input parsing |
+| `productivity.py` | Weekly activity and progress |
+| `ui/` | Colors, views, and animations |
+| `demo.py` | The temporary sample workspace |
+
+Both interactive and single-command modes use the same task operations. Run `python test_task.py` from the checkout to open the demo while developing.
