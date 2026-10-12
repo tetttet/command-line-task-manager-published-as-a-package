@@ -168,3 +168,13 @@ The code lives in `src/task_manager/`:
 | `demo.py` | The temporary sample workspace |
 
 Both interactive and single-command modes use the same task operations. Run `python test_task.py` from the checkout to open the demo while developing.
+
+## Package website
+
+The single-page website lives in [`website/`](website/). To preview it locally:
+
+```bash
+python3 -m http.server 4173 --directory website
+```
+
+Open http://localhost:4173. For Vercel, import this repository and set **Root Directory** to `website` and **Framework Preset** to `Other`. No build step is needed. See the [website setup guide](website/README.md) for details.
